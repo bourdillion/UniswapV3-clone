@@ -701,7 +701,7 @@ contract UniswapV3Pool is NoDelegateCall {
         //initialize the slot0
         Slot0 memory slot0;
 
-        //After this point, we would have basically created our position, flipped our upper or lower ticks if neccessary, update the given tick parameters incase for crossing. and for burning we have deleted the ticj details if the tick liquidity goes to zero.
+        //After this point, we would have basically created our position, flipped our upper or lower ticks if neccessary, update the given tick parameters incase for crossing. and for burning we have deleted the tick details if the tick liquidity goes to zero.
         position = _updatePosition(params.owner, params.tickLower, params.tickUpper, params.liquidityDelta, slot0.tick);
 
         if (params.liquidityDelta != 0) {

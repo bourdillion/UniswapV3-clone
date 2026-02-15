@@ -32,6 +32,7 @@ library SwapMath {
         bool exactIn = amountRemaining >= 0;
 
         if (exactIn) {
+            //here we are trying to find out how much will remain if we have removed our fee, so if fee is 3%, here we are saying do 97/100 of the total amount so that we can remove the fees.
             uint256 amountRemainingLessFee = FullMath.mulDiv(uint256(amountRemaining), 1e6 - feePips, 1e6);
 
             //wait, why did we switch the sqrtPrice representing upper and lower tick?? it is because of the way we move with price, when we do zeroforone=true, price is going down - so that means that our current price is the upper tick and our target which is below our current price is the lower tick...same sense for the other way round, price go up there
@@ -51,6 +52,8 @@ library SwapMath {
             amountOut = zeroForOne
                 ? SqrtPriceMath.getAmount1Delta(sqrtRatioTargetX96, sqrtRatioCurrentX96, liquidity, false)
                 : SqrtPriceMath.getAmount0Delta(sqrtRatioCurrentX96, sqrtRatioTargetX96, int128(liquidity), false);
+
+                
             if (uint256(-amountRemaining) >= amountOut) {
                 sqrtRatioNextX96 = sqrtRatioTargetX96;
             } else {

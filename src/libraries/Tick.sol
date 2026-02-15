@@ -120,7 +120,7 @@ library Tick {
         //make sure that the liquidity is less the maxLiquidity
         require(liquidityGrossAfter <= maxLiquidity, "LO");
 
-        //in other to check if liquidity was added to the pool from zero or liquidity was removed from the pool completely, we use this to check so we can update the bitmap.abi
+        //in other to check if liquidity was added to the pool from zero or liquidity was removed from the pool completely, we use this to check so we can update the bitmap.
         flipped = (liquidityGrossAfter == 0) != (liquidityGrossBefore == 0);
 
         if (liquidityGrossBefore == 0) {
@@ -145,13 +145,12 @@ library Tick {
             : int256(info.liquidityNet).add(liquidityDelta).toInt128();
     }
 
-
     //use telete the tick
     function clear(mapping(int24 => Tick.Info) storage self, int24 tick) internal {
         delete self[tick];
     }
 
-        function cross(
+    function cross(
         mapping(int24 => Tick.Info) storage self,
         int24 tick,
         uint256 feeGrowthGlobal0X128,

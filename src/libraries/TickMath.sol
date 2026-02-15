@@ -3,7 +3,7 @@ pragma solidity 0.8.24;
 
 library TickMath {
     /**
-     * the fartest range that the two tokens in a pool max at 2^128, so we want to calculate the range.
+     * the farthest range that the two tokens in a pool max at 2^128, so we want to calculate the range.
      *
      * recall that price(p) = (1.0001)^t
      * where (1.0001)^t is gotten from (1 + 1/10000)^tick

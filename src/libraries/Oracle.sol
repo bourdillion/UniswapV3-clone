@@ -63,6 +63,7 @@ library Oracle {
         //so here we are saying that if cardinalityNext is greater than cardinality(meaning cardinality can be updated) and we are not almost at the end of cardinality, then it is time to bump cardinality up to cardinalityNext..
         //how can cardinalityNext be different from cardinality?? because someone might have increased it with the increaseCardinalityNext function and cardinality might have not be increased as well.
         //we only match cardinality up to the max when it is absolutely neccessary to do so, that is the observation index we have written to is already close., if not that our cardinality should just remain our cardinality
+        //@question why are we leaving this gas for the user that is writing to observation?? why don't we just increase the cardinality when we grew the cardinalityNext??
         if (cardinalityNext > cardinality && index == (cardinality - 1)) {
             cardinalityUpdated = cardinalityNext;
         } else {
@@ -168,9 +169,11 @@ library Oracle {
          *
          * we are checking to make sure our target is not older than our oldest observation.
          */
-        beforeOrAt = self[(index + 1) % cardinality];
+        //first, we get the oldest observation
+        beforeOrAt = self[(index + 1) % cardinality]; 
+        //Next we check if our observation is initialized, if it is not - it means we are still in the linear route so please just set the observation to the OG observation which is at index 0.
         if (!beforeOrAt.initialized) beforeOrAt = self[0];
-
+        // here is the actual check
         require(lte(time, beforeOrAt.blockTimeStamp, target), "OLD");
 
         /**
